@@ -1,5 +1,6 @@
 package br.com.mateusfilpo.netflix.domain;
 
+import br.com.mateusfilpo.netflix.dtos.UserCreateDTO;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-    private List<UserGenre> generos = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserGenre> genres = new ArrayList<>();
 
     public User() {
     }
@@ -32,6 +33,14 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public User(UserCreateDTO dto) {
+        this.username = dto.getUsername();
+        this.password = dto.getPassword();
+        this.firstName = dto.getFirstName();
+        this.lastName = dto.getLastName();
+        this.email = dto.getEmail();
     }
 
     public Long getId() {
@@ -82,8 +91,8 @@ public class User {
         this.password = password;
     }
 
-    public List<UserGenre> getGeneros() {
-        return generos;
+    public List<UserGenre> getGenres() {
+        return genres;
     }
 
     @Override
@@ -108,7 +117,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", generos=" + generos +
+                ", genres=" + genres +
                 '}';
     }
 }

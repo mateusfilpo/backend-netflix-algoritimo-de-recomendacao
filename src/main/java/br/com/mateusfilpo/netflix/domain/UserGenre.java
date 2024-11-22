@@ -60,7 +60,7 @@ public class UserGenre {
         return _value;
     }
 
-    public void setValue(Double _value) {
+    public void set_Value(Double _value) {
         this._value = _value;
     }
 
