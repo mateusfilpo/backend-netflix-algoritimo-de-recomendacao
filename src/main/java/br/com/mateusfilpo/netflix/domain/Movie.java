@@ -1,5 +1,6 @@
 package br.com.mateusfilpo.netflix.domain;
 
+import br.com.mateusfilpo.netflix.dtos.MovieCreateDTO;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,17 +18,21 @@ public class Movie {
     private String title;
     private String description;
 
-    @OneToMany(mappedBy = "movie", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL)
     private List<MovieGenre> genres = new ArrayList<>();
 
     public Movie() {
     }
 
-    public Movie(Long id, String title, String description, List<MovieGenre> genres) {
+    public Movie(Long id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.genres = genres;
+    }
+
+    public Movie(MovieCreateDTO dto) {
+        this.title = dto.getTitle();
+        this.description = dto.getDescription();
     }
 
     public Long getId() {
