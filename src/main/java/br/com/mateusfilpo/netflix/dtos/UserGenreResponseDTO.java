@@ -1,6 +1,5 @@
 package br.com.mateusfilpo.netflix.dtos;
 
-import br.com.mateusfilpo.netflix.domain.MovieGenre;
 import br.com.mateusfilpo.netflix.domain.UserGenre;
 
 public class UserGenreResponseDTO {

@@ -3,7 +3,6 @@ package br.com.mateusfilpo.netflix.dtos;
 public class UserGenreDTO {
 
     private Long id;
-    private Double value;
 
     public UserGenreDTO() {
     }
@@ -14,9 +13,5 @@ public class UserGenreDTO {
 
     public Long getId() {
         return id;
-    }
-
-    public Double getValue() {
-        return value;
     }
 }

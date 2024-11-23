@@ -1,8 +1,6 @@
 package br.com.mateusfilpo.netflix.controllers;
 
-import br.com.mateusfilpo.netflix.dtos.UserCreateDTO;
-import br.com.mateusfilpo.netflix.dtos.UserResponseDTO;
-import br.com.mateusfilpo.netflix.dtos.UserUpdateDTO;
+import br.com.mateusfilpo.netflix.dtos.*;
 import br.com.mateusfilpo.netflix.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +32,15 @@ public class UserController {
 
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/{id}/recommended-movies")
+    public ResponseEntity<List<MovieWithValueGenreDTO>> findRecommendedMovies(@PathVariable Long id) {
+        List<MovieWithValueGenreDTO> result = service.findRecommendedMovies(id);
+
+        return ResponseEntity.ok(result);
+    }
+
+
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateDTO dto) {

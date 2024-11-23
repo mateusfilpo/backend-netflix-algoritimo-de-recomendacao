@@ -92,7 +92,7 @@ public class MovieService {
             MovieGenre movieGenre = new MovieGenre();
             movieGenre.setGenre(genre);
             movieGenre.setMovie(movie);
-            movieGenre.set_value(genreDTO.getValue());
+            movieGenre.setValue(genreDTO.getValue());
 
             movie.getGenres().add(movieGenre);
         });

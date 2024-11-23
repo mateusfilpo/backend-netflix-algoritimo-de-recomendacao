@@ -20,16 +20,17 @@ public class MovieGenre {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    private Double _value;
+    @Column(name = "_value")
+    private Double value;
 
     public MovieGenre() {
     }
 
-    public MovieGenre(Long id, Movie movie, Genre genre, Double _value) {
+    public MovieGenre(Long id, Movie movie, Genre genre, Double value) {
         this.id = id;
         this.movie = movie;
         this.genre = genre;
-        this._value = _value;
+        this.value = value;
     }
 
     public Long getId() {
@@ -56,12 +57,12 @@ public class MovieGenre {
         this.genre = genre;
     }
 
-    public Double get_value() {
-        return _value;
+    public Double getValue() {
+        return value;
     }
 
-    public void set_value(Double _value) {
-        this._value = _value;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     @Override
@@ -83,7 +84,7 @@ public class MovieGenre {
                 "id=" + id +
                 ", movie=" + movie +
                 ", genre=" + genre +
-                ", _value=" + _value +
+                ", value=" + value +
                 '}';
     }
 }

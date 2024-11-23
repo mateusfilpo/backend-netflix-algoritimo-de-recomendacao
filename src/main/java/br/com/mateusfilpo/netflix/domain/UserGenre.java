@@ -20,16 +20,16 @@ public class UserGenre {
     @JoinColumn(name = "genre_id")
     private Genre genre;
 
-    private Double _value;
+    @Column(name = "_value", columnDefinition = "DOUBLE DEFAULT 1.0")
+    private Double value;
 
     public UserGenre() {
     }
 
-    public UserGenre(Long id, User user, Genre genre, Double _value) {
+    public UserGenre(Long id, User user, Genre genre) {
         this.id = id;
         this.user = user;
         this.genre = genre;
-        this._value = _value;
     }
 
     public Long getId() {
@@ -56,12 +56,12 @@ public class UserGenre {
         this.genre = genre;
     }
 
-    public Double get_Value() {
-        return _value;
+    public Double getValue() {
+        return value;
     }
 
-    public void set_Value(Double _value) {
-        this._value = _value;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     @Override
@@ -83,7 +83,7 @@ public class UserGenre {
                 "id=" + id +
                 ", user=" + user +
                 ", genre=" + genre +
-                ", _value=" + _value +
+                ", value=" + value +
                 '}';
     }
 }
