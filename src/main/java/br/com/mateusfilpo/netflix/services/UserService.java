@@ -9,13 +9,16 @@ import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.InsufficientGenresException;
 import br.com.mateusfilpo.netflix.services.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
     private final GenreRepository genreRepository;
@@ -78,6 +81,15 @@ public class UserService {
         }
 
         repository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = repository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
     }
 
     private void updateData(User user, UserUpdateDTO dto) {

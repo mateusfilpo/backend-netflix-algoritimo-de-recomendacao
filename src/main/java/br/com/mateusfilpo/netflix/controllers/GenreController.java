@@ -3,6 +3,7 @@ package br.com.mateusfilpo.netflix.controllers;
 import br.com.mateusfilpo.netflix.dtos.GenreDTO;
 import br.com.mateusfilpo.netflix.services.GenreService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -31,6 +32,7 @@ public class GenreController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> createGenre(@RequestBody GenreDTO dto) {
         Long id = service.createGenre(dto);
