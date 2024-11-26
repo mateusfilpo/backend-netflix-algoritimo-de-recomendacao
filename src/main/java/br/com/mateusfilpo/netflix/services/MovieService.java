@@ -38,6 +38,12 @@ public class MovieService {
         return new MovieResponseDTO(repository.findById(id).orElseThrow(() -> new MovieNotFoundException(id)));
     }
 
+    public List<MovieResponseDTO> findAllMoviesByGenre(Long genreId) {
+        List<Movie> movies = repository.findAllMoviesByGenre(genreId);
+
+        return movies.stream().map(MovieResponseDTO::new).toList();
+    }
+
     public Long createMovie(MovieCreateDTO movieCreateDTO) {
         Movie movie = new Movie(movieCreateDTO);
 

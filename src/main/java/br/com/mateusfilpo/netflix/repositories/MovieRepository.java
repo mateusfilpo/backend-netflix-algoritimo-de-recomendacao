@@ -18,7 +18,12 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     void deleteMovieGenres(@Param("movieId") Long movieId);
 
     @Query("SELECT DISTINCT m FROM Movie m " +
-            "JOIN MovieGenre mg ON m.id = mg.movie.id " +
-            "WHERE mg.genre.id IN :genreIds")
+           "JOIN MovieGenre mg ON m.id = mg.movie.id " +
+           "WHERE mg.genre.id IN :genreIds")
     List<Movie> findMoviesByGenreIds(@Param("genreIds") Set<Long> genreIds);
+
+    @Query("SELECT m FROM Movie m " +
+           "JOIN MovieGenre mg ON m.id = mg.movie.id " +
+           "WHERE mg.genre.id = :genreId")
+    List<Movie> findAllMoviesByGenre(Long genreId);
 }

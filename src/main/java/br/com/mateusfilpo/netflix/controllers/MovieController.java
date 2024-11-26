@@ -1,5 +1,6 @@
 package br.com.mateusfilpo.netflix.controllers;
 
+import br.com.mateusfilpo.netflix.domain.Movie;
 import br.com.mateusfilpo.netflix.dtos.MovieCreateDTO;
 import br.com.mateusfilpo.netflix.dtos.MovieResponseDTO;
 import br.com.mateusfilpo.netflix.dtos.MovieUpdateDTO;
@@ -33,6 +34,13 @@ public class MovieController {
     @GetMapping("/{id}")
     public ResponseEntity<MovieResponseDTO> findById(@PathVariable Long id) {
         MovieResponseDTO result = service.findById(id);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/genre/{genre-id}")
+    public ResponseEntity<List<MovieResponseDTO>> findByGenre(@PathVariable("genre-id") Long genreId) {
+        List<MovieResponseDTO> result = service.findAllMoviesByGenre(genreId);
 
         return ResponseEntity.ok(result);
     }
