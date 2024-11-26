@@ -5,6 +5,7 @@ import br.com.mateusfilpo.netflix.dtos.MovieResponseDTO;
 import br.com.mateusfilpo.netflix.dtos.MovieUpdateDTO;
 import br.com.mateusfilpo.netflix.services.MovieService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,6 +22,7 @@ public class MovieController {
         this.service = service;
     }
 
+
     @GetMapping
     public ResponseEntity<List<MovieResponseDTO>> findAll() {
         List<MovieResponseDTO> result = service.findAllMovies();
@@ -35,6 +37,7 @@ public class MovieController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> createMovie(@RequestBody MovieCreateDTO movieCreateDTO) {
         Long id = service.createMovie(movieCreateDTO);
@@ -43,6 +46,7 @@ public class MovieController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateMovie(@PathVariable Long id, @RequestBody MovieUpdateDTO movieUpdateDTO) {
         service.updateMovie(id, movieUpdateDTO);
@@ -50,6 +54,7 @@ public class MovieController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
         service.deleteMovie(id);

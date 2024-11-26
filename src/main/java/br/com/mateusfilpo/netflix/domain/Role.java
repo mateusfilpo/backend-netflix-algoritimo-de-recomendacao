@@ -22,11 +22,11 @@ public class Role implements GrantedAuthority {
         this.authority = authority;
     }
 
-    private Long getId() {
+    public Long getId() {
         return id;
     }
 
-    private void SetId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

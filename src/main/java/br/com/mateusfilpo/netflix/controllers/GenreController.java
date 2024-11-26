@@ -42,6 +42,7 @@ public class GenreController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateGenre(@PathVariable Long id, @RequestBody GenreDTO dto) {
         service.updateGenre(id, dto);
@@ -49,6 +50,7 @@ public class GenreController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGenre(@PathVariable Long id) {
         service.deleteGenre(id);

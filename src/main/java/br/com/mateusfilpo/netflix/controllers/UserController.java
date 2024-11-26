@@ -3,6 +3,7 @@ package br.com.mateusfilpo.netflix.controllers;
 import br.com.mateusfilpo.netflix.dtos.*;
 import br.com.mateusfilpo.netflix.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -19,6 +20,7 @@ public class UserController {
         this.service = service;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> findAll() {
         List<UserResponseDTO> result = service.findAll();
@@ -26,6 +28,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> findById(@PathVariable Long id) {
         UserResponseDTO result = service.findById(id);
@@ -33,13 +36,13 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
+
     @GetMapping("/{id}/recommended-movies")
     public ResponseEntity<List<MovieWithValueGenreDTO>> findRecommendedMovies(@PathVariable Long id) {
         List<MovieWithValueGenreDTO> result = service.findRecommendedMovies(id);
 
         return ResponseEntity.ok(result);
     }
-
 
 
     @PostMapping
@@ -51,6 +54,7 @@ public class UserController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO dto) {
         service.updateUser(id, dto);
@@ -58,6 +62,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         service.deleteUser(id);

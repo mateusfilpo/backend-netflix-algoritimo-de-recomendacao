@@ -4,14 +4,17 @@ import br.com.mateusfilpo.netflix.domain.*;
 import br.com.mateusfilpo.netflix.dtos.*;
 import br.com.mateusfilpo.netflix.repositories.GenreRepository;
 import br.com.mateusfilpo.netflix.repositories.MovieRepository;
+import br.com.mateusfilpo.netflix.repositories.RoleRepository;
 import br.com.mateusfilpo.netflix.repositories.UserRepository;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.InsufficientGenresException;
 import br.com.mateusfilpo.netflix.services.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,12 +25,16 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository repository;
     private final GenreRepository genreRepository;
+    private final RoleRepository roleRepository;
     private final MovieRepository movieRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository repository, GenreRepository genreRepository, MovieRepository movieRepository) {
+    public UserService(UserRepository repository, GenreRepository genreRepository, RoleRepository roleRepository, MovieRepository movieRepository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.genreRepository = genreRepository;
+        this.roleRepository = roleRepository;
         this.movieRepository = movieRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserResponseDTO> findAll() {
@@ -58,6 +65,11 @@ public class UserService implements UserDetailsService {
 
     public Long createUser(UserCreateDTO dto) {
         User user = new User(dto);
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
+
+        Role role = roleRepository.findByAuthority("ROLE_USER");
+        user.getRoles().add(role);
+
         processGenres(user, dto.getGenres());
 
         return repository.save(user).getId();
@@ -98,7 +110,7 @@ public class UserService implements UserDetailsService {
         }
 
         if (dto.getPassword() != null) {
-            user.setPassword(dto.getPassword());
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
 
         if (dto.getEmail() != null) {
