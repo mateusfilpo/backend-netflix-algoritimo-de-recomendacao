@@ -4,9 +4,8 @@ import br.com.mateusfilpo.netflix.domain.User;
 import br.com.mateusfilpo.netflix.dtos.CredentialsRequestDTO;
 import br.com.mateusfilpo.netflix.dtos.CredentialsResponseDTO;
 import br.com.mateusfilpo.netflix.dtos.RoleDTO;
-import br.com.mateusfilpo.netflix.repositories.UserRepository;
 import br.com.mateusfilpo.netflix.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,7 @@ public class AuthenticationController {
     }
 
     @PostMapping
-    public CredentialsResponseDTO validateCredentials(@RequestBody CredentialsRequestDTO credentials) {
+    public CredentialsResponseDTO validateCredentials(@Valid @RequestBody CredentialsRequestDTO credentials) {
         User user = (User) service.loadUserByUsername(credentials.getUsername());
 
         if (user != null && passwordEncoder.matches(credentials.getPassword(), user.getPassword())) {

@@ -2,6 +2,7 @@ package br.com.mateusfilpo.netflix.controllers;
 
 import br.com.mateusfilpo.netflix.dtos.GenreDTO;
 import br.com.mateusfilpo.netflix.services.GenreService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class GenreController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Void> createGenre(@RequestBody GenreDTO dto) {
+    public ResponseEntity<Void> createGenre(@Valid @RequestBody GenreDTO dto) {
         Long id = service.createGenre(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
@@ -44,7 +45,7 @@ public class GenreController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateGenre(@PathVariable Long id, @RequestBody GenreDTO dto) {
+    public ResponseEntity<Void> updateGenre(@PathVariable Long id, @Valid @RequestBody GenreDTO dto) {
         service.updateGenre(id, dto);
 
         return ResponseEntity.noContent().build();

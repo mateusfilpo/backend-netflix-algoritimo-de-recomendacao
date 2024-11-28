@@ -2,6 +2,7 @@ package br.com.mateusfilpo.netflix.controllers;
 
 import br.com.mateusfilpo.netflix.dtos.*;
 import br.com.mateusfilpo.netflix.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody UserCreateDTO dto) {
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserCreateDTO dto) {
         Long id = service.createUser(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
@@ -56,7 +57,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateUser(@PathVariable Long id, @RequestBody UserUpdateDTO dto) {
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateDTO dto) {
         service.updateUser(id, dto);
 
         return ResponseEntity.noContent().build();

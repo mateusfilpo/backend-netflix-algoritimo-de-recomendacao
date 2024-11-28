@@ -1,12 +1,23 @@
 package br.com.mateusfilpo.netflix.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieCreateDTO  {
 
+    @NotNull(message = "Title cannot be null.")
+    @NotBlank(message = "Title cannot be blank.")
     private String title;
+
+    @NotNull(message = "Description cannot be null.")
+    @NotBlank(message = "Description cannot be blank.")
     private String description;
+
+    @Size(min = 3, message = "The list of genres must have at least 3 items.")
     private List<MovieGenreDTO> genres = new ArrayList<>();
 
     public MovieCreateDTO () {

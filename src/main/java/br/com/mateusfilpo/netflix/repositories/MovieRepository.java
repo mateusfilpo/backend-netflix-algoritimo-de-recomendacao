@@ -1,6 +1,8 @@
 package br.com.mateusfilpo.netflix.repositories;
 
 import br.com.mateusfilpo.netflix.domain.Movie;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,5 +27,5 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("SELECT m FROM Movie m " +
            "JOIN MovieGenre mg ON m.id = mg.movie.id " +
            "WHERE mg.genre.id = :genreId")
-    List<Movie> findAllMoviesByGenre(Long genreId);
+    Page<Movie> findAllMoviesByGenre(Long genreId, PageRequest pageRequest);
 }

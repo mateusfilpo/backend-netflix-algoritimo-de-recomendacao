@@ -2,8 +2,6 @@ package br.com.mateusfilpo.netflix.repositories;
 
 import br.com.mateusfilpo.netflix.domain.User;
 import br.com.mateusfilpo.netflix.domain.UserGenre;
-import br.com.mateusfilpo.netflix.dtos.UserGenreDTO;
-import br.com.mateusfilpo.netflix.dtos.UserGenreResponseDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<UserGenre> findUserGenresByUserId(@Param("userId") Long userId);
 
     User findByUsername(String username);
+
+    boolean existsByUsername(String username);
 }

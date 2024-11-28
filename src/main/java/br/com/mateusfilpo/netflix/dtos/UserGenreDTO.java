@@ -1,7 +1,10 @@
 package br.com.mateusfilpo.netflix.dtos;
 
+import jakarta.validation.constraints.NotNull;
+
 public class UserGenreDTO {
 
+    @NotNull(message = "Id cannot be null.")
     private Long id;
 
     public UserGenreDTO() {
