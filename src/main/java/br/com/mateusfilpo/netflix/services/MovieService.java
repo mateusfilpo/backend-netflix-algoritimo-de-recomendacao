@@ -10,7 +10,6 @@ import br.com.mateusfilpo.netflix.dtos.movies.MovieUpdateDTO;
 import br.com.mateusfilpo.netflix.repositories.GenreRepository;
 import br.com.mateusfilpo.netflix.repositories.MovieRepository;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
-import br.com.mateusfilpo.netflix.services.exceptions.InsufficientGenresException;
 import br.com.mateusfilpo.netflix.services.exceptions.MovieNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -120,9 +119,6 @@ public class MovieService {
         }
 
         if (dto.getGenres() != null && !dto.getGenres().isEmpty()) {
-            if (dto.getGenres().size() < 3) {
-                throw new InsufficientGenresException();
-            }
             repository.deleteMovieGenres(movie.getId());
             processGenres(movie, dto.getGenres());
         }

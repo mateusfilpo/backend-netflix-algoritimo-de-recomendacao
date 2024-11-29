@@ -3,7 +3,6 @@ package br.com.mateusfilpo.netflix.controllers.exceptions;
 import br.com.mateusfilpo.netflix.dtos.errors.CustomError;
 import br.com.mateusfilpo.netflix.dtos.errors.ValidationError;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
-import br.com.mateusfilpo.netflix.services.exceptions.InsufficientGenresException;
 import br.com.mateusfilpo.netflix.services.exceptions.MovieNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
-import java.util.Date;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -40,14 +38,6 @@ public class ControllerExceptionHandler {
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
-
-    @ExceptionHandler(InsufficientGenresException.class)
-    public ResponseEntity<CustomError> insufficientGenres(InsufficientGenresException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
-        return ResponseEntity.status(status).body(err);
-    }
-
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomError> validationException(MethodArgumentNotValidException e, HttpServletRequest request) {

@@ -11,7 +11,6 @@ import br.com.mateusfilpo.netflix.repositories.MovieRepository;
 import br.com.mateusfilpo.netflix.repositories.RoleRepository;
 import br.com.mateusfilpo.netflix.repositories.UserRepository;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
-import br.com.mateusfilpo.netflix.services.exceptions.InsufficientGenresException;
 import br.com.mateusfilpo.netflix.services.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -129,9 +128,6 @@ public class UserService implements UserDetailsService {
         }
 
         if (!dto.getGenres().isEmpty()) {
-            if (dto.getGenres().size() < 3) {
-                throw new InsufficientGenresException();
-            }
             repository.deleteUserGenres(user.getId());
             processGenres(user, dto.getGenres());
         }
