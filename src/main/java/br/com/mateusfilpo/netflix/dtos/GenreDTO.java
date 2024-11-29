@@ -1,9 +1,11 @@
 package br.com.mateusfilpo.netflix.dtos;
 
 import br.com.mateusfilpo.netflix.domain.Genre;
+import br.com.mateusfilpo.netflix.services.validations.UniqueGenre;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@UniqueGenre
 public class GenreDTO {
 
     @NotNull(message = "Name cannot be null")

@@ -1,6 +1,8 @@
 package br.com.mateusfilpo.netflix.dtos;
 
+import br.com.mateusfilpo.netflix.services.validations.UniqueEmail;
 import br.com.mateusfilpo.netflix.services.validations.UniqueUsername;
+import br.com.mateusfilpo.netflix.services.validations.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,11 +11,13 @@ import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+@UniqueEmail
+@UniqueUsername
+@ValidPassword
 public class UserCreateDTO {
 
     @NotNull(message = "Username cannot be null.")
     @NotBlank(message = "Username cannot be blank.")
-    @UniqueUsername(message = "This username is already taken.")
     private String username;
 
     @NotNull(message = "Password cannot be null.")

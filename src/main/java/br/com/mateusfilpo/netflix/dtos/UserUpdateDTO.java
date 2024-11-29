@@ -1,24 +1,26 @@
 package br.com.mateusfilpo.netflix.dtos;
 
 import br.com.mateusfilpo.netflix.services.validations.ConditionalSize;
-import br.com.mateusfilpo.netflix.services.validations.UniqueUsernameUpdate;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Null;
+import br.com.mateusfilpo.netflix.services.validations.EmailUpdate;
+import br.com.mateusfilpo.netflix.services.validations.UsernameUpdate;
+import br.com.mateusfilpo.netflix.services.validations.ValidPassword;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ConditionalSize
+@EmailUpdate
+@UsernameUpdate
+@ValidPassword
 public class UserUpdateDTO {
 
-    @UniqueUsernameUpdate(message = "This username is already taken.")
     private String username;
     private String firstName;
     private String lastName;
+
     private String email;
     private String password;
 
-    @ConditionalSize(min = 3, message = "The genres list must have at least 3 items if it is not null.")
     private List<UserGenreDTO> genres = new ArrayList<>();
 
     public UserUpdateDTO() {

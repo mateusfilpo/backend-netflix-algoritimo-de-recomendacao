@@ -8,10 +8,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UniqueUsernameValidator.class)
+@Constraint(validatedBy = ValidPasswordValidator.class)
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueUsername {
+public @interface ValidPassword {
     String message() default "Validation error";
 
     Class<?>[] groups() default {};

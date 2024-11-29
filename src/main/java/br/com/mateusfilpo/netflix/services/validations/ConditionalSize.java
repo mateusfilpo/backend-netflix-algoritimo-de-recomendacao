@@ -9,11 +9,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Constraint(validatedBy = ConditionalSizeValidator.class)
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ConditionalSize {
-    String message() default "The list must have at least 3 elements if it is not null.";
+    String message() default "Validation error";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
+
     int min() default 3;
 }

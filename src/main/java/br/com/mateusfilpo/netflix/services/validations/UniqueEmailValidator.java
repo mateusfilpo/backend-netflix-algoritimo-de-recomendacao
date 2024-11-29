@@ -9,11 +9,11 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, UserCreateDTO> {
+public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, UserCreateDTO> {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public UniqueUsernameValidator(UserRepository userRepository) {
+    public UniqueEmailValidator(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -22,8 +22,8 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
 
         List<FieldMessage> list = new ArrayList<>();
 
-        if (userRepository.existsByUsername(dto.getUsername())) {
-            list.add(new FieldMessage("username", "This username is already taken."));
+        if (userRepository.existsByEmail(dto.getEmail())) {
+            list.add(new FieldMessage("email", "This email is already taken."));
         }
 
         for (FieldMessage e : list) {
