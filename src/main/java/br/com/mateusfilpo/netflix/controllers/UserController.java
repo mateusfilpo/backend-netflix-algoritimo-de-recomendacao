@@ -6,6 +6,7 @@ import br.com.mateusfilpo.netflix.dtos.users.UserResponseDTO;
 import br.com.mateusfilpo.netflix.dtos.users.UserUpdateDTO;
 import br.com.mateusfilpo.netflix.services.UserService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,8 +43,11 @@ public class UserController {
 
 
     @GetMapping("/{id}/recommended-movies")
-    public ResponseEntity<List<MovieWithValueGenreDTO>> findRecommendedMovies(@PathVariable Long id) {
-        List<MovieWithValueGenreDTO> result = service.findRecommendedMovies(id);
+    public ResponseEntity<Page<MovieWithValueGenreDTO>> findRecommendedMovies(@PathVariable Long id,
+                                                                              @RequestParam(required = false) Integer pageNumber,
+                                                                              @RequestParam(required = false) Integer pageSize) {
+
+        Page<MovieWithValueGenreDTO> result = service.findRecommendedMovies(id, pageNumber, pageSize);
 
         return ResponseEntity.ok(result);
     }

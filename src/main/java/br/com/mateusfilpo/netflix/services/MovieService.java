@@ -14,19 +14,17 @@ import br.com.mateusfilpo.netflix.services.exceptions.MovieNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static br.com.mateusfilpo.netflix.utils.PaginationUtils.buildPageRequest;
 
 @Service
 public class MovieService {
 
     private final MovieRepository repository;
     private final GenreRepository genreRepository;
-
-    private static final int DEFAULT_PAGE = 0;
-    private static final int DEFAULT_PAGE_SIZE = 20;
 
     public MovieService(MovieRepository repository, GenreRepository genreRepository) {
         this.repository = repository;
@@ -35,7 +33,7 @@ public class MovieService {
 
     public Page<MovieResponseDTO> findAllMovies(Integer pageNumber, Integer pageSize) {
 
-        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, "title");
 
         Page<Movie> moviePage;
 
@@ -49,7 +47,7 @@ public class MovieService {
     }
 
     public Page<MovieResponseDTO> findAllMoviesByGenre(Long genreId, Integer pageNumber, Integer pageSize) {
-        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize);
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, "title");
 
         Page<Movie> moviePage = repository.findAllMoviesByGenre(genreId, pageRequest);
 
@@ -82,32 +80,6 @@ public class MovieService {
 
         repository.deleteById(id);
     }
-
-    private PageRequest buildPageRequest(Integer pageNumber, Integer pageSize) {
-        int queryPageNumber;
-        int queryPageSize;
-
-        if (pageNumber != null && pageNumber > 0) {
-            queryPageNumber = pageNumber - 1;
-        } else {
-            queryPageNumber = DEFAULT_PAGE;
-        }
-
-        if (pageSize == null) {
-            queryPageSize = DEFAULT_PAGE_SIZE;
-        } else {
-            if (pageSize > 1000) {
-                queryPageSize = 1000;
-            } else {
-                queryPageSize = pageSize;
-            }
-        }
-
-        Sort sort = Sort.by(Sort.Order.asc("title"));
-
-        return PageRequest.of(queryPageNumber, queryPageSize, sort);
-    }
-
 
     private void updateData(Movie movie, MovieUpdateDTO dto) {
         if (dto.getTitle() != null) {

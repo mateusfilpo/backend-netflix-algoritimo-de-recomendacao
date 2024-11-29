@@ -13,6 +13,10 @@ import br.com.mateusfilpo.netflix.repositories.UserRepository;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static br.com.mateusfilpo.netflix.utils.PaginationUtils.buildPageRequest;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -49,20 +55,24 @@ public class UserService implements UserDetailsService {
         return new UserResponseDTO(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
 
-    public List<MovieWithValueGenreDTO> findRecommendedMovies(Long id) {
+    public Page<MovieWithValueGenreDTO> findRecommendedMovies(Long id, Integer pageNumber, Integer pageSize) {
         User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 
         Map<Long, Double> userGenresMap = user.getGenres().stream()
                 .collect(Collectors.toMap(userGenre -> userGenre.getGenre().getId(), userGenre -> userGenre.getValue()));
 
-        List<Movie> movies = movieRepository.findMoviesByGenreIds(userGenresMap.keySet());
+        PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, "title");
 
-        List<MovieWithValueGenreDTO> recommendedMovies  = movies.stream()
+        Page<Movie> moviePage;
+
+        moviePage = movieRepository.findMoviesByGenreIds(userGenresMap.keySet(), pageRequest);
+
+        List<MovieWithValueGenreDTO> recommendedMovies  = moviePage.getContent().stream()
                 .map(movie -> new MovieWithValueGenreDTO(movie, calculateDistance(user, movie)))
                 .sorted(Comparator.comparingDouble(MovieWithValueGenreDTO::getDistance))
                 .toList();
 
-        return recommendedMovies;
+        return new PageImpl<>(recommendedMovies, pageRequest, moviePage.getTotalElements());
     }
 
     public Long createUser(UserCreateDTO dto) {

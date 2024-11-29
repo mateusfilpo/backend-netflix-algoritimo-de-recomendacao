@@ -22,7 +22,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query("SELECT DISTINCT m FROM Movie m " +
            "JOIN MovieGenre mg ON m.id = mg.movie.id " +
            "WHERE mg.genre.id IN :genreIds")
-    List<Movie> findMoviesByGenreIds(@Param("genreIds") Set<Long> genreIds);
+    Page<Movie> findMoviesByGenreIds(@Param("genreIds") Set<Long> genreIds, PageRequest pageRequest);
 
     @Query("SELECT m FROM Movie m " +
            "JOIN MovieGenre mg ON m.id = mg.movie.id " +
