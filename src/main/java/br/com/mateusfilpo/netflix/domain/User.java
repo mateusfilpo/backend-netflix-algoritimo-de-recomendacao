@@ -1,6 +1,6 @@
 package br.com.mateusfilpo.netflix.domain;
 
-import br.com.mateusfilpo.netflix.dtos.UserCreateDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserCreateDTO;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

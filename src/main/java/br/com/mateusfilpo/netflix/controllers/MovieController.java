@@ -1,8 +1,8 @@
 package br.com.mateusfilpo.netflix.controllers;
 
-import br.com.mateusfilpo.netflix.dtos.MovieCreateDTO;
-import br.com.mateusfilpo.netflix.dtos.MovieResponseDTO;
-import br.com.mateusfilpo.netflix.dtos.MovieUpdateDTO;
+import br.com.mateusfilpo.netflix.dtos.movies.MovieCreateDTO;
+import br.com.mateusfilpo.netflix.dtos.movies.MovieResponseDTO;
+import br.com.mateusfilpo.netflix.dtos.movies.MovieUpdateDTO;
 import br.com.mateusfilpo.netflix.services.MovieService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/movies")

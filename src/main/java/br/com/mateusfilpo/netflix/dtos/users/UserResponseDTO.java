@@ -1,6 +1,7 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.users;
 
 import br.com.mateusfilpo.netflix.domain.User;
+import br.com.mateusfilpo.netflix.dtos.usergenres.UserGenreResponseDTO;
 
 import java.util.ArrayList;
 import java.util.List;

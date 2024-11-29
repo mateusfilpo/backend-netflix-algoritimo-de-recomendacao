@@ -1,5 +1,6 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.users;
 
+import br.com.mateusfilpo.netflix.dtos.usergenres.UserGenreDTO;
 import br.com.mateusfilpo.netflix.services.validations.ConditionalSize;
 import br.com.mateusfilpo.netflix.services.validations.EmailUpdate;
 import br.com.mateusfilpo.netflix.services.validations.UsernameUpdate;

@@ -1,6 +1,6 @@
 package br.com.mateusfilpo.netflix.controllers;
 
-import br.com.mateusfilpo.netflix.dtos.GenreDTO;
+import br.com.mateusfilpo.netflix.dtos.genres.GenreDTO;
 import br.com.mateusfilpo.netflix.services.GenreService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

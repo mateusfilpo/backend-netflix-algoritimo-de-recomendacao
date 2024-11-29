@@ -1,6 +1,7 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.movies;
 
 import br.com.mateusfilpo.netflix.domain.Movie;
+import br.com.mateusfilpo.netflix.dtos.moviegenres.MovieGenreResponseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;

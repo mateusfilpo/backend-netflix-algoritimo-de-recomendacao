@@ -1,4 +1,4 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.moviegenres;
 
 public class MovieGenreDTO {
 

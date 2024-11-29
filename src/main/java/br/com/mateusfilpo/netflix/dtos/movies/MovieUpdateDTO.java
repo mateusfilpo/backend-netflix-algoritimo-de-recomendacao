@@ -1,5 +1,6 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.movies;
 
+import br.com.mateusfilpo.netflix.dtos.moviegenres.MovieGenreDTO;
 import br.com.mateusfilpo.netflix.services.validations.ConditionalSize;
 
 import java.util.ArrayList;

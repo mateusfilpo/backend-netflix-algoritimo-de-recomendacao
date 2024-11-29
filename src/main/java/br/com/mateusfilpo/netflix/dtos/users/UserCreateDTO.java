@@ -1,5 +1,6 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.users;
 
+import br.com.mateusfilpo.netflix.dtos.usergenres.UserGenreDTO;
 import br.com.mateusfilpo.netflix.services.validations.UniqueEmail;
 import br.com.mateusfilpo.netflix.services.validations.UniqueUsername;
 import br.com.mateusfilpo.netflix.services.validations.ValidPassword;

@@ -1,7 +1,7 @@
 package br.com.mateusfilpo.netflix.services;
 
 import br.com.mateusfilpo.netflix.domain.Genre;
-import br.com.mateusfilpo.netflix.dtos.GenreDTO;
+import br.com.mateusfilpo.netflix.dtos.genres.GenreDTO;
 import br.com.mateusfilpo.netflix.repositories.GenreRepository;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import org.springframework.stereotype.Service;

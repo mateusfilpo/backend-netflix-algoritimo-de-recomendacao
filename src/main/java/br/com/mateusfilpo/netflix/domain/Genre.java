@@ -1,6 +1,6 @@
 package br.com.mateusfilpo.netflix.domain;
 
-import br.com.mateusfilpo.netflix.dtos.GenreDTO;
+import br.com.mateusfilpo.netflix.dtos.genres.GenreDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;

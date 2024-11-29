@@ -1,6 +1,6 @@
 package br.com.mateusfilpo.netflix.services.validations;
 
-import br.com.mateusfilpo.netflix.dtos.GenreDTO;
+import br.com.mateusfilpo.netflix.dtos.genres.GenreDTO;
 import br.com.mateusfilpo.netflix.dtos.errors.FieldMessage;
 import br.com.mateusfilpo.netflix.repositories.GenreRepository;
 import jakarta.validation.ConstraintValidator;

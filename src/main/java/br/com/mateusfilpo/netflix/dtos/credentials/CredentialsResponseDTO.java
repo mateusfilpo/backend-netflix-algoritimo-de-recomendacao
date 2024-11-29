@@ -1,4 +1,6 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.credentials;
+
+import br.com.mateusfilpo.netflix.dtos.roles.RoleDTO;
 
 import java.util.HashSet;
 import java.util.Set;

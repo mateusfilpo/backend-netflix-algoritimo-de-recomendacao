@@ -1,6 +1,9 @@
 package br.com.mateusfilpo.netflix.controllers;
 
-import br.com.mateusfilpo.netflix.dtos.*;
+import br.com.mateusfilpo.netflix.dtos.movies.MovieWithValueGenreDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserCreateDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserResponseDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserUpdateDTO;
 import br.com.mateusfilpo.netflix.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

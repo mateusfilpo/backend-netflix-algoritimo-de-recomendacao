@@ -1,9 +1,9 @@
 package br.com.mateusfilpo.netflix.controllers;
 
 import br.com.mateusfilpo.netflix.domain.User;
-import br.com.mateusfilpo.netflix.dtos.CredentialsRequestDTO;
-import br.com.mateusfilpo.netflix.dtos.CredentialsResponseDTO;
-import br.com.mateusfilpo.netflix.dtos.RoleDTO;
+import br.com.mateusfilpo.netflix.dtos.credentials.CredentialsRequestDTO;
+import br.com.mateusfilpo.netflix.dtos.credentials.CredentialsResponseDTO;
+import br.com.mateusfilpo.netflix.dtos.roles.RoleDTO;
 import br.com.mateusfilpo.netflix.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;

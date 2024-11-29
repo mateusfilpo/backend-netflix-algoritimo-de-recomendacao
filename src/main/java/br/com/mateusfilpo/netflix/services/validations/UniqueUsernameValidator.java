@@ -1,6 +1,6 @@
 package br.com.mateusfilpo.netflix.services.validations;
 
-import br.com.mateusfilpo.netflix.dtos.UserCreateDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserCreateDTO;
 import br.com.mateusfilpo.netflix.dtos.errors.FieldMessage;
 import br.com.mateusfilpo.netflix.repositories.UserRepository;
 import jakarta.validation.ConstraintValidator;

@@ -1,7 +1,11 @@
 package br.com.mateusfilpo.netflix.services;
 
 import br.com.mateusfilpo.netflix.domain.*;
-import br.com.mateusfilpo.netflix.dtos.*;
+import br.com.mateusfilpo.netflix.dtos.movies.MovieWithValueGenreDTO;
+import br.com.mateusfilpo.netflix.dtos.usergenres.UserGenreDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserCreateDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserResponseDTO;
+import br.com.mateusfilpo.netflix.dtos.users.UserUpdateDTO;
 import br.com.mateusfilpo.netflix.repositories.GenreRepository;
 import br.com.mateusfilpo.netflix.repositories.MovieRepository;
 import br.com.mateusfilpo.netflix.repositories.RoleRepository;

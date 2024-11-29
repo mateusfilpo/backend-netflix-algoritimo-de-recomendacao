@@ -1,4 +1,4 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.moviegenres;
 
 import br.com.mateusfilpo.netflix.domain.MovieGenre;
 

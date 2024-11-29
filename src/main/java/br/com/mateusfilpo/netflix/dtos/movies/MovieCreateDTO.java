@@ -1,5 +1,6 @@
-package br.com.mateusfilpo.netflix.dtos;
+package br.com.mateusfilpo.netflix.dtos.movies;
 
+import br.com.mateusfilpo.netflix.dtos.moviegenres.MovieGenreDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
