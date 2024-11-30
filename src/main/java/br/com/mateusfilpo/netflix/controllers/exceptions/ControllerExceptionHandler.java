@@ -2,6 +2,7 @@ package br.com.mateusfilpo.netflix.controllers.exceptions;
 
 import br.com.mateusfilpo.netflix.dtos.errors.CustomError;
 import br.com.mateusfilpo.netflix.dtos.errors.ValidationError;
+import br.com.mateusfilpo.netflix.services.exceptions.DatabaseException;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.MovieNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.UserNotFoundException;
@@ -35,6 +36,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<CustomError> userNotFound(UserNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
+        CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<CustomError> database(DatabaseException e, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }

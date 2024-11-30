@@ -3,11 +3,14 @@ package br.com.mateusfilpo.netflix.services;
 import br.com.mateusfilpo.netflix.domain.Genre;
 import br.com.mateusfilpo.netflix.dtos.genres.GenreDTO;
 import br.com.mateusfilpo.netflix.repositories.GenreRepository;
+import br.com.mateusfilpo.netflix.services.exceptions.DatabaseException;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.CacheManager;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.util.List;
 
 @Service
@@ -59,7 +62,11 @@ public class GenreService {
             throw new GenreNotFoundException(id);
         }
 
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Referential integrity constraint violation. Unable to delete record with ID: " + id);
+        }
     }
 
     private void clearCache(Long id) {
