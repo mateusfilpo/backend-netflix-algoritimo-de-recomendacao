@@ -18,7 +18,7 @@ public class PaginationUtils {
             queryPageNumber = DEFAULT_PAGE;
         }
 
-        if (pageSize == null) {
+        if (pageSize == null || pageSize < 1) {
             queryPageSize = DEFAULT_PAGE_SIZE;
         } else {
             if (pageSize > 1000) {

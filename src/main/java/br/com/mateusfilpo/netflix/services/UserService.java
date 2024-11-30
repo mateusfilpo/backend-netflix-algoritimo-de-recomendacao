@@ -13,6 +13,8 @@ import br.com.mateusfilpo.netflix.repositories.UserRepository;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -36,13 +38,15 @@ public class UserService implements UserDetailsService {
     private final RoleRepository roleRepository;
     private final MovieRepository movieRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CacheManager cacheManager;
 
-    public UserService(UserRepository repository, GenreRepository genreRepository, RoleRepository roleRepository, MovieRepository movieRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository repository, GenreRepository genreRepository, RoleRepository roleRepository, MovieRepository movieRepository, PasswordEncoder passwordEncoder, CacheManager cacheManager) {
         this.repository = repository;
         this.genreRepository = genreRepository;
         this.roleRepository = roleRepository;
         this.movieRepository = movieRepository;
         this.passwordEncoder = passwordEncoder;
+        this.cacheManager = cacheManager;
     }
 
     public List<UserResponseDTO> findAll() {
@@ -55,9 +59,9 @@ public class UserService implements UserDetailsService {
         return new UserResponseDTO(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
     }
 
+    @Cacheable(cacheNames = "userListMovieRecommendCache")
     public Page<MovieWithValueGenreDTO> findRecommendedMovies(Long id, Integer pageNumber, Integer pageSize) {
         User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-
         Map<Long, Double> userGenresMap = user.getGenres().stream()
                 .collect(Collectors.toMap(userGenre -> userGenre.getGenre().getId(), userGenre -> userGenre.getValue()));
 
@@ -76,6 +80,8 @@ public class UserService implements UserDetailsService {
     }
 
     public Long createUser(UserCreateDTO dto) {
+        clearCache();
+
         User user = new User(dto);
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
@@ -89,6 +95,8 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateUser(Long id, UserUpdateDTO dto) {
+        clearCache();
+
         if (!repository.existsById(id)) {
             throw new UserNotFoundException(id);
         }
@@ -100,6 +108,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(Long id) {
+        clearCache();
         if (!repository.existsById(id)) {
             throw new UserNotFoundException(id);
         }
@@ -141,6 +150,13 @@ public class UserService implements UserDetailsService {
             repository.deleteUserGenres(user.getId());
             processGenres(user, dto.getGenres());
         }
+    }
+
+    private void clearCache() {
+        if (cacheManager.getCache("userListMovieRecommendCache") != null) {
+            cacheManager.getCache("userListMovieRecommendCache").clear();
+        }
+
     }
 
     private void processGenres(User user, List<UserGenreDTO> genresDTO) {

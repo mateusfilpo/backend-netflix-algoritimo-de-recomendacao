@@ -12,6 +12,8 @@ import br.com.mateusfilpo.netflix.repositories.MovieRepository;
 import br.com.mateusfilpo.netflix.services.exceptions.GenreNotFoundException;
 import br.com.mateusfilpo.netflix.services.exceptions.MovieNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -25,14 +27,16 @@ public class MovieService {
 
     private final MovieRepository repository;
     private final GenreRepository genreRepository;
+    private final CacheManager cacheManager;
 
-    public MovieService(MovieRepository repository, GenreRepository genreRepository) {
+    public MovieService(MovieRepository repository, GenreRepository genreRepository, CacheManager cacheManager) {
         this.repository = repository;
         this.genreRepository = genreRepository;
+        this.cacheManager = cacheManager;
     }
 
+    @Cacheable(cacheNames = "movieListCache")
     public Page<MovieResponseDTO> findAllMovies(Integer pageNumber, Integer pageSize) {
-
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, "title");
 
         Page<Movie> moviePage;
@@ -42,10 +46,12 @@ public class MovieService {
         return moviePage.map(MovieResponseDTO::new);
     }
 
+    @Cacheable(cacheNames = "movieCache", key = "#id")
     public MovieResponseDTO findById(Long id) {
         return new MovieResponseDTO(repository.findById(id).orElseThrow(() -> new MovieNotFoundException(id)));
     }
 
+    @Cacheable(cacheNames = "movieListByGenreCache")
     public Page<MovieResponseDTO> findAllMoviesByGenre(Long genreId, Integer pageNumber, Integer pageSize) {
         PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, "title");
 
@@ -55,6 +61,13 @@ public class MovieService {
     }
 
     public Long createMovie(MovieCreateDTO movieCreateDTO) {
+        if (cacheManager.getCache("movieListCache") != null) {
+            cacheManager.getCache("movieListCache").clear();
+        }
+        if (cacheManager.getCache("movieListByGenreCache") != null) {
+            cacheManager.getCache("movieListByGenreCache").clear();
+        }
+
         Movie movie = new Movie(movieCreateDTO);
 
         processGenres(movie, movieCreateDTO.getGenres());
@@ -64,6 +77,8 @@ public class MovieService {
 
     @Transactional
     public void updateMovie(Long id, MovieUpdateDTO movieUpdateDTO) {
+        clearCache(id);
+
         if (!repository.existsById(id)) {
             throw new MovieNotFoundException(id);
         }
@@ -74,11 +89,25 @@ public class MovieService {
     }
 
     public void deleteMovie(Long id) {
+        clearCache(id);
+
         if (!repository.existsById(id)) {
             throw new MovieNotFoundException(id);
         }
 
         repository.deleteById(id);
+    }
+
+    private void clearCache(Long id) {
+        if (cacheManager.getCache("movieCache") != null) {
+            cacheManager.getCache("movieCache").evict(id);
+        }
+        if (cacheManager.getCache("movieListCache") != null) {
+            cacheManager.getCache("movieListCache").clear();
+        }
+        if (cacheManager.getCache("movieListByGenreCache") != null) {
+            cacheManager.getCache("movieListByGenreCache").clear();
+        }
     }
 
     private void updateData(Movie movie, MovieUpdateDTO dto) {
