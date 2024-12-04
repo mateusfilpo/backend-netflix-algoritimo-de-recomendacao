@@ -30,6 +30,7 @@ public class MovieRepositoryTest {
     private EntityManager entityManager;
 
     private Movie newMovie;
+
     @Autowired
     private MovieRepository movieRepository;
 
