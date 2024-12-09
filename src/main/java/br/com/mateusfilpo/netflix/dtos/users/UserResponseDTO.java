@@ -8,6 +8,7 @@ import java.util.List;
 
 public class UserResponseDTO {
 
+    private Long id;
     private String username;
     private String firstName;
     private String lastName;
@@ -17,7 +18,8 @@ public class UserResponseDTO {
     public UserResponseDTO() {
     }
 
-    public UserResponseDTO(String username, String firstName, String lastName, String email) {
+    public UserResponseDTO(Long id, String username, String firstName, String lastName, String email) {
+        this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,11 +27,16 @@ public class UserResponseDTO {
     }
 
     public UserResponseDTO(User user) {
+        this.id = user.getId();
         this.username = user.getUsername();
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
         user.getGenres().forEach(userGenre -> getGenres().add(new UserGenreResponseDTO(userGenre)));
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getUsername() {

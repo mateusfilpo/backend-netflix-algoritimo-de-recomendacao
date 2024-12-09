@@ -42,6 +42,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/{id}/recommended-movies")
     public ResponseEntity<Page<MovieWithValueGenreDTO>> findRecommendedMovies(@PathVariable Long id,
                                                                               @RequestParam(required = false) Integer pageNumber,

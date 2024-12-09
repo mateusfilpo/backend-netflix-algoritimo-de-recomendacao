@@ -144,6 +144,7 @@ public class UserServiceTest {
         Mockito.when(userRepository.findById(existingId)).thenReturn(Optional.of(user));
         Mockito.when(userRepository.findById(nonExistingId)).thenThrow(UserNotFoundException.class);
         Mockito.when(movieRepository.findMoviesByGenreIds(genreIds, pageRequest)).thenReturn(moviePage);
+        // Mockito.when(movieRepository.findMoviesByGenreIds(genreIds, pageRequest)).thenReturn(moviePage);
         Mockito.when(cacheManager.getCache("userListMovieRecommendCache")).thenReturn(userListMovieRecommendCache);
         Mockito.when(genreRepository.findById(genreId)).thenReturn(Optional.of(genre));
         Mockito.when(passwordEncoder.encode(userCreateDTO.getPassword())).thenReturn("encodedPassword");
