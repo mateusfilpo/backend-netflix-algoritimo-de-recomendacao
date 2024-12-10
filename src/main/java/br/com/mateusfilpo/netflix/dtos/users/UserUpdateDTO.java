@@ -5,6 +5,8 @@ import br.com.mateusfilpo.netflix.services.validations.ConditionalSize;
 import br.com.mateusfilpo.netflix.services.validations.EmailUpdate;
 import br.com.mateusfilpo.netflix.services.validations.UsernameUpdate;
 import br.com.mateusfilpo.netflix.services.validations.ValidPassword;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,21 @@ import java.util.List;
 public class UserUpdateDTO {
 
     private String username;
+
+    @NotNull(message = "First name cannot be null.")
+    @NotBlank(message = "First name cannot be blank.")
     private String firstName;
+
+    @NotNull(message = "Last name cannot be null.")
+    @NotBlank(message = "Last name cannot be blank.")
     private String lastName;
 
     private String email;
+
+    @NotNull(message = "Phone number cannot be null.")
+    @NotBlank(message = "Phone number cannot be blank.")
+    private String phoneNumber;
+
     private String password;
 
     private List<UserGenreDTO> genres = new ArrayList<>();
@@ -27,11 +40,12 @@ public class UserUpdateDTO {
     public UserUpdateDTO() {
     }
 
-    public UserUpdateDTO(String username, String firstName, String lastName, String email) {
+    public UserUpdateDTO(String username, String firstName, String lastName, String email, String phoneNumber) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
@@ -64,6 +78,14 @@ public class UserUpdateDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {

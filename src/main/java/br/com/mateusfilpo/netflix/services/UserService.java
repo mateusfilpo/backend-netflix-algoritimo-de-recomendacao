@@ -146,6 +146,10 @@ public class UserService implements UserDetailsService {
             user.setLastName(dto.getLastName());
         }
 
+        if (dto.getPhoneNumber() != null) {
+            user.setPhoneNumber(dto.getPhoneNumber());
+        }
+
         if (!dto.getGenres().isEmpty()) {
             repository.deleteUserGenres(user.getId());
             processGenres(user, dto.getGenres());

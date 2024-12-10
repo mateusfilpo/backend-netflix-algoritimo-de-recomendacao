@@ -5,6 +5,7 @@ import br.com.mateusfilpo.netflix.domain.Movie;
 import br.com.mateusfilpo.netflix.domain.MovieGenre;
 import br.com.mateusfilpo.netflix.dtos.movies.MovieCreateDTO;
 import br.com.mateusfilpo.netflix.dtos.moviegenres.MovieGenreDTO;
+import br.com.mateusfilpo.netflix.dtos.movies.MovieKafkaDTO;
 import br.com.mateusfilpo.netflix.dtos.movies.MovieResponseDTO;
 import br.com.mateusfilpo.netflix.dtos.movies.MovieUpdateDTO;
 import br.com.mateusfilpo.netflix.repositories.GenreRepository;
@@ -16,8 +17,10 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import static br.com.mateusfilpo.netflix.utils.PaginationUtils.buildPageRequest;
@@ -28,11 +31,13 @@ public class MovieService {
     private final MovieRepository repository;
     private final GenreRepository genreRepository;
     private final CacheManager cacheManager;
+    private final KafkaTemplate<String, Serializable> kafkaTemplate;
 
-    public MovieService(MovieRepository repository, GenreRepository genreRepository, CacheManager cacheManager) {
+    public MovieService(MovieRepository repository, GenreRepository genreRepository, CacheManager cacheManager, KafkaTemplate<String, Serializable> kafkaTemplate) {
         this.repository = repository;
         this.genreRepository = genreRepository;
         this.cacheManager = cacheManager;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Cacheable(cacheNames = "movieListCache")
@@ -72,7 +77,13 @@ public class MovieService {
 
         processGenres(movie, movieCreateDTO.getGenres());
 
-        return repository.save(movie).getId();
+        Long id = repository.save(movie).getId();
+
+        MovieKafkaDTO kafkaDTO = new MovieKafkaDTO(movie.getTitle(), movie.getDescription());
+
+        kafkaTemplate.send("new-movie-notification", kafkaDTO);
+
+        return id;
     }
 
     @Transactional

@@ -36,18 +36,23 @@ public class UserCreateDTO {
     @Email(message = "Field 'email' is invalid")
     private String email;
 
+    @NotNull(message = "Phone number cannot be null.")
+    @NotBlank(message = "Phone number cannot be blank.")
+    private String phoneNumber;
+
     @Size(min = 3, message = "The list of genres must have at least 3 items.")
     private List<UserGenreDTO> genres = new ArrayList<>();
 
     public UserCreateDTO() {
     }
 
-    public UserCreateDTO(String username, String password, String firstName, String lastName, String email) {
+    public UserCreateDTO(String username, String password, String firstName, String lastName, String email, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
@@ -88,6 +93,14 @@ public class UserCreateDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public List<UserGenreDTO> getGenres() {

@@ -13,17 +13,19 @@ public class UserResponseDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String phoneNumber;
     private List<UserGenreResponseDTO> genres = new ArrayList<>();
 
     public UserResponseDTO() {
     }
 
-    public UserResponseDTO(Long id, String username, String firstName, String lastName, String email) {
+    public UserResponseDTO(Long id, String username, String firstName, String lastName, String email, String phoneNumber) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public UserResponseDTO(User user) {
@@ -33,6 +35,7 @@ public class UserResponseDTO {
         this.lastName = user.getLastName();
         this.email = user.getEmail();
         user.getGenres().forEach(userGenre -> getGenres().add(new UserGenreResponseDTO(userGenre)));
+        this.phoneNumber = user.getPhoneNumber();
     }
 
     public Long getId() {
@@ -53,6 +56,10 @@ public class UserResponseDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public List<UserGenreResponseDTO> getGenres() {
